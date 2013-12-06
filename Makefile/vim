@@ -1,0 +1,42 @@
+1.Makefile文件如下
+
+ ifeq ($(KERNELRELEASE),)    //ifeq后紧跟着一个空格，否则会报错  
+KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+modules:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules  //是tab 而不是空格
+modules_install:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+clean:
+	rm -rf *.o *~core .depend .*.cmd *.ko *.mod.c .tmp_versions
+.PHONY:modules modules_install clean
+else
+	obj-m := hello.o
+endif
+
+然后make
+insmod hello.ko
+dmesg
+rmmod hello.ko
+dmesg
+make clean
+
+
+2.安装vim
+
+
+apt-get install vim
+
+E：Package ‘vim’ has no installation candidate
+
+这是缺少源所导致，更新/etc/apt/source.lst
+#这里你也可以直接使用更快速的ubuntu.cn99.com的源（推荐）:
+deb http://ubuntu.cn99.com/ubuntu/ oneiric main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ oneiric-updates main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ oneiric-security main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ oneiric-backports main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu-cn/ oneiric main restricted universe multiverse
+
+添加完毕后，apt-get update
+
+再次apt-get vim  OK！！
